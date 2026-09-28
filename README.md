@@ -133,4 +133,24 @@ pip install -r requirements.txt
 Điền `.env`: `OPENROUTER_API_KEY` + `RED_TEAM_PROVIDER=openai|gemini` (và key tương ứng).  
 Rồi mở [`CHECKPOINTS.md`](CHECKPOINTS.md) và làm lần lượt Checkpoint 1 → 5.
 
+---
+
+## 4. Web Dashboard UI (VinBank AI SOC)
+
+Hệ thống tích hợp sẵn giao diện trực quan SOC hiện đại:
+
+```powershell
+python run_ui.py
+# hoặc: python src/ui/app.py
+```
+
+Dashboard tự động khởi chạy tại `http://127.0.0.1:8000`:
+- **Tổng quan & Kiến trúc:** Sơ đồ luồng 5 lớp phòng thủ, kiểm tra trạng thái toàn bộ Checkpoint & Artifacts.
+- **Blue Team (Phòng thủ):** Hộp Sandbox tương tác, mô phỏng 5 lớp bảo vệ theo thời gian thực (Rate Limit, Input Injection/Topic, LLM, Output PII/Secret Redaction, Egress), quản lý `results.json` và nhật ký `audit_log.json`.
+- **Red Team (Tấn công):** Đấu trường đối kháng so sánh trực quan giữa **Tấn công thường** và **Tấn công nâng cao (Advanced Vectors)**, đối đầu song song giữa Red Default (mềm - rò rỉ secret) và Red Advance (cứng - phòng thủ kiên cố).
+- **HITL & Egress:** Bộ phân luồng tin cậy (Confidence Router), 3 điểm chốt phê duyệt nhân sự VinBank, tường lửa kiểm soát dữ liệu ra (Egress Firewall).
+- **Tự chấm & Tests:** Chạy 1-click `scripts/grade.py` và toàn bộ 16 bài tests smoke + public.
+
+---
+
 Nộp theo [`SUBMISSION.md`](SUBMISSION.md) · Quy định: [`RULES.md`](RULES.md).

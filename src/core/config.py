@@ -18,7 +18,13 @@ Hai tầng model (không trộn):
 from __future__ import annotations
 
 import os
+import sys
 from pathlib import Path
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 _ROOT = Path(__file__).resolve().parents[2]
 
@@ -269,7 +275,7 @@ ALLOWED_TOPICS = [
     "loan", "interest", "savings", "credit",
     "deposit", "withdrawal", "balance", "payment",
     "tai khoan", "giao dich", "tiet kiem", "lai suat",
-    "chuyen tien", "the tin dung", "so du", "vay",
+    "chuyen tien", "chuyen khoan", "the tin dung", "so du", "vay",
     "ngan hang", "atm",
 ]
 

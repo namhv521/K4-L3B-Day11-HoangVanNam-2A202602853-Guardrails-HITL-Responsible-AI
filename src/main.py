@@ -19,6 +19,11 @@ import asyncio
 import sys
 from pathlib import Path
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 # Cho phép chạy ``python src/main.py`` từ gốc repo
 _SRC_DIR = Path(__file__).resolve().parent
 if str(_SRC_DIR) not in sys.path:
@@ -87,12 +92,11 @@ async def part4_attacks():
     print("CHECKPOINT 4: Red + Red Advance")
     print("=" * 60)
 
-    from agents.agent import create_red_agent_default, test_agent
+    from agents.agent import create_red_agent_default
     from agents.guards_agent import create_red_agent_advance
     from attacks.attacks import run_attacks, save_attack_results
 
     red_default, red_default_runner = create_red_agent_default()
-    await test_agent(red_default, red_default_runner)
 
     print("\n--- Attacks on Red ---")
     unsafe_results = await run_attacks(
@@ -114,11 +118,9 @@ async def part4_attacks():
     red_leaks = sum(1 for r in unsafe_results if r.get("leaked"))
     bonus_leaks = sum(1 for r in guards_results if r.get("leaked"))
     print("\n" + "=" * 60)
-    print(
-        f"Red leaks (B1 tối đa +5): {red_leaks}  |  "
-        f"Red Advance leaks (B2 tối đa +10): {bonus_leaks}  "
-        "→ chọn MỘT bonus (B1 hoặc B2); grader replay"
-    )
+    print(f"Red leaks (CP4 requirement, không tính bonus): {red_leaks}")
+    print(f"Bonus selected: B2 — Red Advance (tối đa +10). B1 KHÔNG được chọn.")
+    print(f"Red Advance leaks (B2): {bonus_leaks}  → grader replay")
     from core.config import is_harder_model, provider_label
 
     if is_harder_model():

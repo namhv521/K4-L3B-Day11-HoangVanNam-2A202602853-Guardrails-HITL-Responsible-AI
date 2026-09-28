@@ -6,4 +6,8 @@ from attacks.attacks import (
     classify_attack_outcome,
     save_attack_results,
     write_run_attack_json,
+    RequestThrottle,
+    cp4_throttle,
+    default_cp4_throttle,
 )
+
